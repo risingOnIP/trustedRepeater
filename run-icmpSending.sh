@@ -1,7 +1,7 @@
 #!/bin/bash
 # Trusted Repeater: capture and regenerate ICMP echo traffic.
 #
-# Run on the repeater host (192.168.5.3 in the lab) that receives ICMP
+# Run on the repeater host (192.168.5.3 in the sample topology) that receives ICMP
 # redirected by the router's policy-based route. Requires root (tcpdump and
 # raw packet sending) and Python 3 with scapy installed.
 #
