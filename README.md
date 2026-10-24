@@ -186,8 +186,8 @@ The same echo request, as captured and as transmitted. The values match the samp
 1. Clone the repository.
 
    ```bash
-   git clone https://github.com/risingOnIP/trustedRepeater.git
-   cd trustedRepeater
+   git clone https://github.com/risingOnIP/trusted-repeater.git
+   cd trusted-repeater
    ```
 
 2. Install the Python dependency for the interpreter that root uses.
@@ -236,7 +236,7 @@ While `run-icmpSending.sh` runs, each captured echo packet is printed with its t
 ## Project Structure
 
 ```text
-trustedRepeater/
+trusted-repeater/
 ├── config/
 │   ├── router-r1.conf              # sample router R1 with policy route
 │   └── switch-ms1.conf             # sample access switch MS1
