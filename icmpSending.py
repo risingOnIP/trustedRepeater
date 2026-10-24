@@ -29,7 +29,7 @@ built from these control fields and sent instead:
 
 The known-safe payload is the standard 56-byte echo data used by the Linux
 ping utility: an 8-byte little-endian timestamp followed by the byte pattern
-0x08 to 0x37. It is generated without reading the original payload, so any
+0x08 to 0x37. It is built without reading the original payload, so any
 data hidden there is discarded by construction.
 
 Parsing and building are separate from sending so that both can be tested
