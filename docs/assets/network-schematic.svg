@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Trusted Repeater reference topology</title>
+  <desc id="desc">Hosts on 192.168.1.0/24 behind switch MS1 and hosts on 192.168.10.0/24 connect to router R1. A policy-based route on R1 sends their ICMP to the Trusted Repeater at 192.168.5.3, which transmits a regenerated packet with a known-safe payload back through R1 toward the external destination.</desc>
+  <defs>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#B45309"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#15803D"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#2563EB"/>
+    </marker>
+    <g id="monitor">
+      <rect x="-15" y="-12" width="30" height="20" rx="3" fill="#FFFFFF" stroke="#374151" stroke-width="2"/>
+      <path d="M-5 12H5M0 8V12" stroke="#374151" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <clipPath id="clip_hostsA"><rect x="64" y="164" width="168" height="112" rx="10"/></clipPath>
+    <clipPath id="clip_ms1"><rect x="290" y="176" width="150" height="88" rx="10"/></clipPath>
+    <clipPath id="clip_hostsB"><rect x="64" y="414" width="168" height="112" rx="10"/></clipPath>
+    <clipPath id="clip_dest"><rect x="998" y="276" width="152" height="98" rx="10"/></clipPath>
+  </defs>
+
+  <style>
+    text { font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #111827; }
+    .h1 { font-size: 24px; font-weight: 700; }
+    .sub { font-size: 14px; fill: #4B5563; }
+    .zone { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; fill: #4B5563; }
+    .name { font-size: 15px; font-weight: 700; }
+    .meta { font-size: 12.5px; fill: #4B5563; }
+    .port { font-size: 12px; font-weight: 600; fill: #111827; }
+    .addr { font-size: 12px; fill: #4B5563; }
+    .flowA { font-size: 12.5px; font-weight: 700; fill: #B45309; }
+    .flowG { font-size: 12.5px; font-weight: 700; fill: #15803D; }
+    .flowNote { font-size: 12px; fill: #4B5563; }
+    .chip { font-size: 12px; font-weight: 600; fill: #1E40AF; }
+    .cfg { font-size: 12px; fill: #374151; }
+    .legend { font-size: 12.5px; fill: #374151; }
+  </style>
+
+  <!-- Card -->
+  <rect x="0.5" y="0.5" width="1199" height="699" rx="16" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Heading -->
+  <text class="h1" x="40" y="54">Reference Topology</text>
+  <text class="sub" x="40" y="80">Policy-based routing on R1 diverts outbound ICMP to the Trusted Repeater, which transmits a regenerated packet in its place.</text>
+
+  <!-- Zones -->
+  <rect x="40" y="112" width="440" height="456" rx="12" fill="#E5E7EB" fill-opacity="0.28" stroke="#4B5563" stroke-opacity="0.55" stroke-dasharray="6 5"/>
+  <text class="zone" x="60" y="138">INTERNAL NETWORK</text>
+  <rect x="972" y="230" width="196" height="166" rx="12" fill="#E5E7EB" fill-opacity="0.28" stroke="#4B5563" stroke-opacity="0.55" stroke-dasharray="6 5"/>
+  <text class="zone" x="990" y="256">EXTERNAL NETWORK</text>
+
+  <!-- ===== Links: original (untrusted) path, amber ===== -->
+  <!-- Hosts 192.168.1.0/24 to MS1 -->
+  <path d="M232 220H286" fill="none" stroke="#B45309" stroke-width="3" marker-end="url(#arrowAmber)"/>
+  <!-- MS1 to R1 Gi0/2 -->
+  <path d="M440 220H504V304H596" fill="none" stroke="#B45309" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrowAmber)"/>
+  <!-- Hosts 192.168.10.0/24 to R1 Gi0/1 -->
+  <path d="M232 470H536V346H596" fill="none" stroke="#B45309" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrowAmber)"/>
+  <!-- R1 Gi0/0 down to repeater (redirect) -->
+  <path d="M676 418V488" fill="none" stroke="#B45309" stroke-width="3" marker-end="url(#arrowAmber)"/>
+
+  <!-- ===== Links: regenerated (safe) path, green ===== -->
+  <!-- Repeater up to R1 Gi0/0 -->
+  <path d="M744 492V422" fill="none" stroke="#15803D" stroke-width="3" marker-end="url(#arrowGreen)"/>
+  <!-- R1 to external destination -->
+  <path d="M820 325H994" fill="none" stroke="#15803D" stroke-width="3" marker-end="url(#arrowGreen)"/>
+
+  <!-- Flow labels -->
+  <text class="flowA" x="664" y="446" text-anchor="end">ICMP redirected</text>
+  <text class="flowNote" x="664" y="464" text-anchor="end">to 192.168.5.3</text>
+  <text class="flowG" x="756" y="446">Regenerated packet</text>
+  <text class="flowNote" x="756" y="464">same fields, safe payload</text>
+  <text class="flowG" x="907" y="313" text-anchor="middle">Regenerated packet</text>
+  <text class="flowNote" x="907" y="345" text-anchor="middle">to original destination</text>
+
+  <!-- ===== Hosts 192.168.1.0/24 ===== -->
+  <rect x="64" y="164" width="168" height="112" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="64" y="164" width="5" height="112" fill="#374151" clip-path="url(#clip_hostsA)"/>
+  <use href="#monitor" x="108" y="196"/>
+  <use href="#monitor" x="148" y="196"/>
+  <use href="#monitor" x="188" y="196"/>
+  <text class="name" x="84" y="240">Hosts</text>
+  <text class="meta" x="84" y="260">192.168.1.0/24</text>
+
+  <!-- ===== Switch MS1 ===== -->
+  <rect x="290" y="176" width="150" height="88" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="290" y="176" width="5" height="88" fill="#374151" clip-path="url(#clip_ms1)"/>
+  <rect x="308" y="190" width="40" height="18" rx="3" fill="#374151"/>
+  <path d="M314 196H328M328 196l-3-3M328 196l-3 3M342 202H328M328 202l3-3M328 202l3 3" stroke="#FFFFFF" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <text class="name" x="308" y="230">Switch MS1</text>
+  <text class="meta" x="308" y="250">VLAN 1 192.168.1.2</text>
+
+  <!-- ===== Hosts 192.168.10.0/24 ===== -->
+  <rect x="64" y="414" width="168" height="112" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="64" y="414" width="5" height="112" fill="#374151" clip-path="url(#clip_hostsB)"/>
+  <use href="#monitor" x="108" y="446"/>
+  <use href="#monitor" x="148" y="446"/>
+  <use href="#monitor" x="188" y="446"/>
+  <text class="name" x="84" y="490">Hosts</text>
+  <text class="meta" x="84" y="510">192.168.10.0/24</text>
+
+  <!-- ===== Policy route callout ===== -->
+  <path d="M710 214V232" stroke="#374151" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <rect x="596" y="118" width="228" height="96" rx="10" fill="#FFFFFF" stroke="#374151" stroke-width="1.5"/>
+  <text class="name" x="612" y="142" style="font-size:13.5px">Policy route icmpRedirect</text>
+  <text class="cfg" x="612" y="164">applied on Gi0/1 and Gi0/2</text>
+  <text class="cfg" x="612" y="183">match ACL matchICMP</text>
+  <text class="cfg" x="612" y="202">set ip next-hop 192.168.5.3</text>
+
+  <!-- ===== Router R1 ===== -->
+  <rect x="600" y="232" width="220" height="186" rx="10" fill="#FFFFFF" stroke="#374151" stroke-width="2"/>
+  <circle cx="626" cy="262" r="13" fill="#374151"/>
+  <path d="M619 258.5H632M632 258.5l-3-3M632 258.5l-3 3M633 265.5H620M620 265.5l3-3M620 265.5l3 3" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="name" x="648" y="260">Router R1</text>
+  <text class="meta" x="648" y="277">Cisco 2911, IOS 15.7</text>
+  <line x1="612" y1="290" x2="808" y2="290" stroke="#E5E7EB" stroke-width="1.5"/>
+  <!-- Gi0/2 -->
+  <rect x="596" y="300" width="8" height="8" rx="1.5" fill="#374151"/>
+  <text class="port" x="614" y="309">Gi0/2</text>
+  <text class="addr" x="660" y="309">192.168.1.1</text>
+  <!-- Gi0/1 -->
+  <rect x="596" y="342" width="8" height="8" rx="1.5" fill="#374151"/>
+  <text class="port" x="614" y="351">Gi0/1</text>
+  <text class="addr" x="660" y="351">192.168.10.1</text>
+  <!-- Gi0/0 -->
+  <rect x="672" y="414" width="76" height="8" rx="1.5" fill="#374151"/>
+  <text class="port" x="664" y="401">Gi0/0</text>
+  <text class="addr" x="710" y="401">192.168.5.1</text>
+  <!-- Upstream port -->
+  <rect x="816" y="321" width="8" height="8" rx="1.5" fill="#374151"/>
+
+  <!-- ===== Trusted Repeater ===== -->
+  <rect x="540" y="492" width="340" height="150" rx="12" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+  <rect x="540" y="492" width="340" height="40" rx="12" fill="#2563EB"/>
+  <rect x="540" y="512" width="340" height="20" fill="#2563EB"/>
+  <text x="560" y="518" style="font-size:15px;font-weight:700;fill:#FFFFFF">Trusted Repeater</text>
+  <text x="860" y="518" text-anchor="end" style="font-size:12.5px;fill:#FFFFFF">192.168.5.3</text>
+  <text class="meta" x="560" y="556">Linux host, IP forwarding disabled</text>
+  <!-- pipeline chips -->
+  <rect x="560" y="572" width="84" height="28" rx="14" fill="#2563EB" fill-opacity="0.10" stroke="#2563EB"/>
+  <text class="chip" x="602" y="590" text-anchor="middle">Capture</text>
+  <path d="M646 586H662" stroke="#2563EB" stroke-width="1.6" marker-end="url(#arrowBlue)"/>
+  <rect x="666" y="572" width="84" height="28" rx="14" fill="#2563EB" fill-opacity="0.10" stroke="#2563EB"/>
+  <text class="chip" x="708" y="590" text-anchor="middle">Extract</text>
+  <path d="M752 586H768" stroke="#2563EB" stroke-width="1.6" marker-end="url(#arrowBlue)"/>
+  <rect x="772" y="572" width="92" height="28" rx="14" fill="#2563EB" fill-opacity="0.10" stroke="#2563EB"/>
+  <text class="chip" x="818" y="590" text-anchor="middle">Regenerate</text>
+  <text class="meta" x="560" y="626" style="font-size:12px">tcpdump</text>
+  <text class="meta" x="666" y="626" style="font-size:12px">icmpSending.py builds and sends</text>
+  <text class="zone" x="710" y="672" text-anchor="middle" style="fill:#B45309;letter-spacing:0.6px">ORIGINAL PACKET IS DROPPED, ITS PAYLOAD IS NEVER COPIED</text>
+
+  <!-- ===== External destination ===== -->
+  <rect x="998" y="276" width="152" height="98" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="998" y="276" width="5" height="98" fill="#4B5563" clip-path="url(#clip_dest)"/>
+  <circle cx="1030" cy="304" r="12" fill="none" stroke="#4B5563" stroke-width="2"/>
+  <path d="M1018 304H1042M1030 292c-6 7-6 17 0 24M1030 292c6 7 6 17 0 24" fill="none" stroke="#4B5563" stroke-width="1.5"/>
+  <text class="name" x="1016" y="342">Destination</text>
+  <text class="meta" x="1016" y="361">for example 8.8.8.8</text>
+
+  <!-- ===== Legend ===== -->
+  <rect x="924" y="476" width="244" height="166" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text class="zone" x="942" y="502">LEGEND</text>
+  <path d="M942 526H978" stroke="#B45309" stroke-width="3" marker-end="url(#arrowAmber)"/>
+  <text class="legend" x="990" y="530">Original ICMP, untrusted</text>
+  <path d="M942 556H978" stroke="#15803D" stroke-width="3" marker-end="url(#arrowGreen)"/>
+  <text class="legend" x="990" y="560">Regenerated, known-safe</text>
+  <rect x="942" y="576" width="36" height="16" rx="4" fill="#2563EB"/>
+  <text class="legend" x="990" y="589">Trusted Repeater</text>
+  <rect x="942" y="606" width="36" height="16" rx="4" fill="#FFFFFF" stroke="#374151" stroke-width="2"/>
+  <text class="legend" x="990" y="619">Network infrastructure</text>
+</svg>
