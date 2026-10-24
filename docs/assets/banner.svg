@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-label="Trusted Repeater">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#1F2937"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#FFFFFF" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0.55" stop-color="#111827" stop-opacity="1"/>
+      <stop offset="0.75" stop-color="#111827" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="320" rx="18" fill="url(#bg)"/>
+  <rect width="1280" height="320" rx="18" fill="url(#grid)"/>
+  <g>
+    <line x1="1118" y1="233" x2="1145" y2="249" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1118" y1="233" x2="1106" y2="196" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1148" y1="56" x2="1203" y2="57" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1148" y1="56" x2="1055" y2="73" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1236" y1="289" x2="1145" y2="249" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="980" y1="184" x2="1010" y2="194" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="980" y1="184" x2="1028" y2="253" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="907" y1="229" x2="1010" y2="194" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1049" y1="106" x2="1055" y2="73" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1049" y1="106" x2="1078" y2="135" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1010" y1="194" x2="1028" y2="253" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1145" y1="249" x2="1106" y2="196" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="1078" y1="135" x2="1055" y2="73" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="983" y1="52" x2="969" y2="60" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="983" y1="52" x2="986" y2="95" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <line x1="969" y1="60" x2="986" y2="95" stroke="#2563EB" stroke-opacity="0.45" stroke-width="1.5"/>
+    <circle cx="1118" cy="233" r="13" fill="#B45309" fill-opacity="0.12"/>
+    <circle cx="1118" cy="233" r="7" fill="#B45309"/>
+    <circle cx="1148" cy="56" r="10" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1148" cy="56" r="4" fill="#2563EB"/>
+    <circle cx="1236" cy="289" r="10" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1236" cy="289" r="4" fill="#2563EB"/>
+    <circle cx="980" cy="184" r="11" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="980" cy="184" r="5" fill="#2563EB"/>
+    <circle cx="907" cy="229" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="907" cy="229" r="3" fill="#2563EB"/>
+    <circle cx="1049" cy="106" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1049" cy="106" r="3" fill="#2563EB"/>
+    <circle cx="1010" cy="194" r="11" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1010" cy="194" r="5" fill="#2563EB"/>
+    <circle cx="1145" cy="249" r="11" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1145" cy="249" r="5" fill="#2563EB"/>
+    <circle cx="1078" cy="135" r="11" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1078" cy="135" r="5" fill="#2563EB"/>
+    <circle cx="983" cy="52" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="983" cy="52" r="3" fill="#2563EB"/>
+    <circle cx="1203" cy="57" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1203" cy="57" r="3" fill="#2563EB"/>
+    <circle cx="969" cy="60" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="969" cy="60" r="3" fill="#2563EB"/>
+    <circle cx="986" cy="95" r="9" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="986" cy="95" r="3" fill="#2563EB"/>
+    <circle cx="1028" cy="253" r="11" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1028" cy="253" r="5" fill="#2563EB"/>
+    <circle cx="1055" cy="73" r="10" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1055" cy="73" r="4" fill="#2563EB"/>
+    <circle cx="1106" cy="196" r="10" fill="#2563EB" fill-opacity="0.12"/>
+    <circle cx="1106" cy="196" r="4" fill="#2563EB"/>
+  </g>
+  <rect width="1280" height="320" rx="18" fill="url(#fade)" fill-opacity="0.85"/>
+  <rect x="0" y="56" width="8" height="208" fill="#B45309"/>
+  <text x="72" y="128" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="58" font-weight="700" fill="#F9FAFB">Trusted Repeater</text>
+  <text x="72" y="176" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" fill="#CBD5E1">Stops covert data exfiltration by regenerating outbound</text>
+  <text x="72" y="208" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" fill="#CBD5E1">packets with known-safe payloads instead of inspecting them.</text>
+  <rect x="72" y="248" width="250" height="32" rx="16" fill="#B45309" fill-opacity="0.18" stroke="#B45309" stroke-width="1.5"/>
+  <text x="197.0" y="269" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2" fill="#F9FAFB">US PATENT 12,598,158 B2</text>
+  <rect x="334" y="248" width="184" height="32" rx="16" fill="#2563EB" fill-opacity="0.18" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="426.0" y="269" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2" fill="#F9FAFB">NETWORK SECURITY</text>
+  <rect x="530" y="248" width="212" height="32" rx="16" fill="#2563EB" fill-opacity="0.18" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="636.0" y="269" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2" fill="#F9FAFB">PACKET REGENERATION</text>
+</svg>
