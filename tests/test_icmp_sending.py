@@ -31,6 +31,12 @@ REPLY_LINE = (
 FIXED_NOW = 1_700_000_000.5
 
 
+def expected_safe_payload():
+    """The standard echo data: 8-byte timestamp plus the 0x08 to 0x37 pattern."""
+    timestamp = int(FIXED_NOW - icmpSending.TIMESTAMP_OFFSET_SECONDS)
+    return timestamp.to_bytes(8, "little") + bytes(range(0x08, 0x38))
+
+
 class ParseTcpdumpFieldsTest(unittest.TestCase):
     def test_request_fields(self):
         fields = icmpSending.parse_tcpdump_fields(REQUEST_LINE.split())
@@ -64,7 +70,7 @@ class ParseTcpdumpFieldsTest(unittest.TestCase):
 class BuildPacketTest(unittest.TestCase):
     def test_request_packet(self):
         fields = icmpSending.parse_tcpdump_fields(REQUEST_LINE.split())
-        packet = IP(bytes(icmpSending.build_packet(fields)))
+        packet = IP(bytes(icmpSending.build_packet(fields, now=FIXED_NOW)))
 
         self.assertEqual(packet[IP].src, "192.168.1.10")
         self.assertEqual(packet[IP].dst, "8.8.8.8")
@@ -72,16 +78,13 @@ class BuildPacketTest(unittest.TestCase):
         self.assertEqual(packet[ICMP].code, 0)
         self.assertEqual(packet[ICMP].id, 4321)
         self.assertEqual(packet[ICMP].seq, 7)
-        self.assertNotIn(Raw, packet)
+        self.assertEqual(packet[Raw].load, expected_safe_payload())
+        self.assertEqual(len(packet[Raw].load), 56)
 
     def test_reply_packet(self):
         fields = icmpSending.parse_tcpdump_fields(REPLY_LINE.split())
         packet = IP(bytes(icmpSending.build_packet(fields, now=FIXED_NOW)))
-
-        expected_timestamp = int(FIXED_NOW - icmpSending.TIMESTAMP_OFFSET_SECONDS)
-        expected_payload = expected_timestamp.to_bytes(8, "little") + bytes(
-            range(0x08, 0x38)
-        )
+        expected_payload = expected_safe_payload()
 
         self.assertEqual(packet[IP].src, "8.8.8.8")
         self.assertEqual(packet[IP].dst, "192.168.1.10")
@@ -92,9 +95,37 @@ class BuildPacketTest(unittest.TestCase):
         self.assertEqual(packet[Raw].load, expected_payload)
         self.assertEqual(len(packet[Raw].load), 56)
 
-    def test_reply_payload_uses_ping_pattern(self):
-        payload = icmpSending.build_reply_payload(now=FIXED_NOW)
+    def test_safe_payload_uses_ping_pattern(self):
+        payload = icmpSending.build_safe_payload(now=FIXED_NOW)
         self.assertEqual(payload[8:], bytes(range(0x08, 0x38)))
+
+    def test_covert_payload_is_not_copied(self):
+        # Simulates an ICMP tunnel: the captured request carried attacker data.
+        # Only control fields reach build_packet(), so the regenerated payload
+        # is the standard pattern and the original bytes cannot appear in it.
+        covert = b"BEGIN-EXFIL:customer-records.csv".ljust(56, b"#")
+        original = (
+            IP(src="192.168.1.10", dst="8.8.8.8")
+            / ICMP(type=8, id=4321, seq=7)
+            / Raw(load=covert)
+        )
+        line = "12:00:00.000000 eth0  In  IP %s > %s: ICMP echo request, id %d, seq %d, length %d" % (
+            original[IP].src,
+            original[IP].dst,
+            original[ICMP].id,
+            original[ICMP].seq,
+            len(original[ICMP]),
+        )
+        fields = icmpSending.parse_tcpdump_fields(line.split())
+        packet = icmpSending.build_packet(fields, now=FIXED_NOW)
+
+        self.assertEqual(packet[IP].src, original[IP].src)
+        self.assertEqual(packet[IP].dst, original[IP].dst)
+        self.assertEqual(packet[ICMP].id, original[ICMP].id)
+        self.assertEqual(packet[ICMP].seq, original[ICMP].seq)
+        self.assertEqual(len(packet[ICMP]), len(original[ICMP]))
+        self.assertNotIn(b"EXFIL", bytes(packet))
+        self.assertEqual(packet[Raw].load, expected_safe_payload())
 
 
 class MainTest(unittest.TestCase):

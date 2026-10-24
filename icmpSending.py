@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Regenerate a captured ICMP echo packet with the same control fields.
 
-This is the packet generator of the Trusted Repeater lab prototype. The run
-script (run-icmpSending.sh) captures inbound ICMP echo traffic with tcpdump and
-passes each text line to this script as a list of whitespace-separated fields:
+This is the packet generator of the Trusted Repeater. Outbound ICMP is
+redirected to the repeater host by policy-based routing (see
+config/router-r1.conf). The run script (run-icmpSending.sh) captures that
+traffic with tcpdump and passes each text line to this script as a list of
+whitespace-separated fields:
 
     python3 icmpSending.py --list <tcpdump line fields>
 
@@ -22,12 +24,13 @@ Field indices used (0-based, after splitting on whitespace):
 The original packet is never forwarded. A brand-new packet of the same type is
 built from these control fields and sent instead:
 
-    echo request: IP(src, dst) / ICMP(type 8, id, seq) with an empty payload
+    echo request: IP(src, dst) / ICMP(type 8, id, seq) / Raw(known-safe payload)
     echo reply:   IP(src, dst) / ICMP(type 0, id, seq) / Raw(known-safe payload)
 
-The reply payload is an 8-byte little-endian timestamp followed by the byte
-pattern 0x08 to 0x37 that the Linux ping utility expects. Any data hidden in the
-original payload is therefore discarded.
+The known-safe payload is the standard 56-byte echo data used by the Linux
+ping utility: an 8-byte little-endian timestamp followed by the byte pattern
+0x08 to 0x37. It is generated without reading the original payload, so any
+data hidden there is discarded by construction.
 
 Parsing and building are separate from sending so that both can be tested
 offline (see tests/test_icmp_sending.py). Sending requires root privileges.
@@ -56,8 +59,9 @@ TRAILING_PUNCTUATION = ":,"
 ICMP_ECHO_REPLY = 0
 ICMP_ECHO_REQUEST = 8
 
-# Aligns the regenerated timestamp with the originating host's clock. This is an
-# offset value specific to the original lab setup; adjust it for other hosts.
+# Offset, in seconds, subtracted from the repeater clock when the payload
+# timestamp is written, so that it aligns with the clock of the hosts in the
+# sample topology. Set it to 0 to use the repeater clock unchanged.
 TIMESTAMP_OFFSET_SECONDS = 330.854723498
 
 # Known-safe echo data: the byte pattern 0x08 to 0x37 used by the Linux ping
@@ -110,8 +114,11 @@ def parse_tcpdump_fields(fields: Sequence[str]) -> EchoFields:
     )
 
 
-def build_reply_payload(now: Optional[float] = None) -> bytes:
-    """Return the known-safe echo reply payload: timestamp plus ping pattern."""
+def build_safe_payload(now: Optional[float] = None) -> bytes:
+    """Return the known-safe echo payload: timestamp plus ping pattern.
+
+    The payload depends only on the clock, never on the captured packet.
+    """
     if now is None:
         now = time.time()
     timestamp = int(now - TIMESTAMP_OFFSET_SECONDS)
@@ -121,16 +128,17 @@ def build_reply_payload(now: Optional[float] = None) -> bytes:
 def build_packet(fields: EchoFields, now: Optional[float] = None):
     """Build a new echo packet carrying the same control fields.
 
-    Echo requests carry an empty payload. Echo replies carry the payload from
-    build_reply_payload(). Nothing is sent.
+    The packet type follows the captured echo type, and the payload is always
+    the known-safe payload from build_safe_payload(). Nothing is sent.
     """
-    ip_layer = IP(src=fields.source, dst=fields.destination)
     if fields.echo_type == "request":
-        return ip_layer / ICMP(type=ICMP_ECHO_REQUEST, id=fields.ident, seq=fields.seq)
+        icmp_type = ICMP_ECHO_REQUEST
+    else:
+        icmp_type = ICMP_ECHO_REPLY
     return (
-        ip_layer
-        / ICMP(type=ICMP_ECHO_REPLY, id=fields.ident, seq=fields.seq)
-        / Raw(load=build_reply_payload(now))
+        IP(src=fields.source, dst=fields.destination)
+        / ICMP(type=icmp_type, id=fields.ident, seq=fields.seq)
+        / Raw(load=build_safe_payload(now))
     )
 
 
