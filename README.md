@@ -88,7 +88,7 @@ The method implemented in this repository is protected by [U.S. Patent No. 12,59
 - A data loss prevention complement that closes the covert channels content inspection cannot see.
 - A managed-service offering for organizations without in-house network security staff.
 
-**Relationship to this code.** This repository implements the ICMP embodiment of claim 1 for echo requests and echo replies, with router policy-based routing as the redirect, tcpdump as the packet sniffer, and Scapy as the packet generator. Switch-based redirection, flow classification, and selective pass-through from the dependent claims are listed in the [Roadmap](#roadmap).
+**Relationship to this code.** This repository implements the ICMP embodiment of claim 1 for echo requests and echo replies, with router policy-based routing as the redirect, tcpdump as the packet sniffer, and Scapy as the packet generator. The dependent claims additionally describe switch-based redirection, flow classification, and selective pass-through.
 
 **Patent notice.** No license under this patent is granted by this repository, expressly or by implication. For licensing inquiries, contact the author via [GitHub](https://github.com/risingOnIP).
 
@@ -260,15 +260,6 @@ trusted-repeater/
 - Configuration files in `config/` are sample configurations for the reference topology. Credentials and identifiers in them are redacted placeholders (`<REDACTED>`, `admin`, `example.com`), and each file opens with a `SAMPLE CONFIGURATION` header.
 - The parser reads the tcpdump 4.99 `-i any` line layout. Lines in any other layout are reported and skipped, never forwarded.
 - Regenerated echo requests and echo replies both carry the standard 56-byte ping payload, so packet sizes match those of a default Linux ping.
-
-## Roadmap
-
-- [ ] Extend regeneration to DNS queries and responses, generating safe payloads from the query type and format.
-- [ ] Add switch-based redirection as an alternative to router policy-based routing.
-- [ ] Add flow classification so that packets of one conversation are grouped and regenerated together.
-- [ ] Add pass-through rules for outbound packet types that an operator marks as trusted.
-- [ ] Record each regeneration event in a database for reporting and monitoring tools.
-- [ ] Run capture and regeneration as one persistent service for high-throughput links.
 
 ## License
 
